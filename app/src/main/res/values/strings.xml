@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">My Buku</string>
+    <string name="app_name">MyBuku</string>
+    <string name="gambar">Gambar %1$s</string>
+    <string name="error">Gagal memuat data... Koneksi eror</string>
+    <string name="try_again">Coba lagi</string>
+    <string name="profil">Profil</string>
+    <string name="tutup">Tutup</string>
+    <string name="logout">Logout</string>
+    <string name="tambah_buku">Tambah Buku</string>
+    <string name="judul">Judul</string>
+    <string name="penulis">Penulis</string>
+    <string name="cover_buku">Cover buku %1$s</string>
+    <string name="simpan">Simpan</string>
+    <string name="hapus">Hapus</string>
+    <string name="pesan_hapus">Hapus buku ini?</string>
+    <string name="tombol_hapus">Hapus</string>
+    <string name="batal">Batal</string>
 </resources>
