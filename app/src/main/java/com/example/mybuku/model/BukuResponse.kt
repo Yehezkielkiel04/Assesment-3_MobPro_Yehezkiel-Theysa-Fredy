@@ -2,5 +2,6 @@ package com.example.mybuku.model
 
 data class BukuResponse(
     val status: String,
-    val data: List<Buku>
+    val data: List<Buku>,
+    val message: String? = ""
 )

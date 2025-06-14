@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.2"
+androidImageCropper = "4.3.2"
 kotlin = "2.0.0"
 compose = "1.6.5"
 material3 = "1.2.1"
@@ -18,6 +19,7 @@ datastorePreferences = "1.1.4"
 
 
 [libraries]
+android-image-cropper = { module = "com.github.CanHub:Android-Image-Cropper", version.ref = "androidImageCropper" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

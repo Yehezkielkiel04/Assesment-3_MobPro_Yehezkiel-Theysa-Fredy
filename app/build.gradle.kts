@@ -77,7 +77,7 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.androidx.datastore.preferences)
-    implementation("com.github.CanHub:Android-Image-Cropper:4.3.2")
+    implementation(libs.android.image.cropper)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

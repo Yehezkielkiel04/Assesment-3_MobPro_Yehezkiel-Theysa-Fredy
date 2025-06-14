@@ -18,16 +18,16 @@ fun DisplayAlertDialog(
     AlertDialog(
         text = { Text(text = stringResource(R.string.pesan_hapus)) },
         confirmButton = {
-            TextButton(onClick = onConfirmation) {
-                Text(text = stringResource(R.string.tombol_hapus))
+            TextButton(onClick = { onConfirmation() }) {
+                Text(text = stringResource(R.string.tombol_hapus)) // disesuaikan
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismissRequest) {
+            TextButton(onClick = { onDismissRequest() }) {
                 Text(text = stringResource(R.string.batal))
             }
         },
-        onDismissRequest = onDismissRequest
+        onDismissRequest = { onDismissRequest() }
     )
 }
 

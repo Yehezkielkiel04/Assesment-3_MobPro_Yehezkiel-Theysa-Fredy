@@ -102,12 +102,11 @@ fun MainScreen() {
                 val options = CropImageContractOptions(
                     null,
                     CropImageOptions().apply {
-                        imageSourceIncludeGallery = false
+                        imageSourceIncludeGallery = true
                         imageSourceIncludeCamera = true
                         fixAspectRatio = true
                     }
                 )
-
                 launcher.launch(options)
             }) {
                 Icon(
@@ -167,15 +166,22 @@ fun ScreenContent(viewModel: MainViewModel, userId: String, modifier: Modifier =
         ApiStatus.LOADING -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
-
         ApiStatus.SUCCESS -> LazyVerticalGrid(
             modifier = modifier.fillMaxWidth().padding(4.dp),
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(bottom = 80.dp)
         ) {
-            items(data) { ListItem(buku = it) { onDeleteClick(it) } }
-        }
 
+            if (data.isNotEmpty()) {
+                items(data) { ListItem(buku = it) { onDeleteClick(it) } }
+            } else {
+                item {
+                    Text(
+                        text = "Data belum Tersedia"
+                    )
+                }
+            }
+        }
         ApiStatus.FAILED -> Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -201,7 +207,7 @@ fun ListItem(buku: Buku, onDeleteClick: () -> Unit = {}) {
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(BukuApi.getBukuUrl(buku.imageId))
+                .data(BukuApi.getBukuUrl(buku.imagepath))
                 .crossfade(true)
                 .build(),
             contentDescription = stringResource(R.string.cover_buku, buku.judul),
@@ -221,10 +227,8 @@ fun ListItem(buku: Buku, onDeleteClick: () -> Unit = {}) {
                     Text(text = buku.judul, fontWeight = FontWeight.Bold, color = Color.White)
                     Text(text = buku.penulis, fontSize = 14.sp, color = Color.White)
                 }
-                if (buku.mine == "1") {
-                    IconButton(onClick = { onDeleteClick() }) {
-                        Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(id = R.string.hapus))
-                    }
+                IconButton(onClick = { onDeleteClick() }) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(id = R.string.hapus))
                 }
             }
         }

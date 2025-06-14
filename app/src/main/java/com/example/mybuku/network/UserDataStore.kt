@@ -10,8 +10,9 @@ import com.example.mybuku.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+// Gunakan nama yang umum dan konsisten: "user_preferences"
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "user_preference"
+    name = "user_preferences"
 )
 
 class UserDataStore(private val context: Context) {

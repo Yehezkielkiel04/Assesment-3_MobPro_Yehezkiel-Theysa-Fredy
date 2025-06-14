@@ -24,64 +24,64 @@ class MainViewModel : ViewModel() {
     var status = MutableStateFlow(ApiStatus.LOADING)
         private set
 
-    private val _errorMessage = mutableStateOf<String?>(null)
-    val errorMessage = _errorMessage
+    var errorMessage = mutableStateOf<String?>(null)
+        private set
 
-    fun retrieveData(userId: String) {
+    fun retrieveData(userEmail: String) {
         viewModelScope.launch(Dispatchers.IO) {
             status.value = ApiStatus.LOADING
             try {
-                val response = BukuApi.service.getBuku(userId)
+                val response = BukuApi.service.getBuku(userEmail)
                 data.value = response.data
                 status.value = ApiStatus.SUCCESS
             } catch (e: Exception) {
                 Log.d("MainViewModel", "Failure: ${e.message}")
                 status.value = ApiStatus.FAILED
-                _errorMessage.value = e.message
+                errorMessage.value = e.message
             }
         }
     }
 
-
-    fun saveData(userId: String, judul: String, penulis: String, bitmap: Bitmap) {
+    fun saveData(userEmail: String, judul: String, penulis: String, bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = BukuApi.service.postBuku(
-                    userId,
+                    userEmail,
                     judul.toRequestBody("text/plain".toMediaTypeOrNull()),
                     penulis.toRequestBody("text/plain".toMediaTypeOrNull()),
                     bitmap.toMultipartBody()
                 )
 
                 if (result.status == "success")
-                    retrieveData(userId)
+                    retrieveData(userEmail)
                 else
                     throw Exception(result.message)
             } catch (e: Exception) {
                 Log.d("MainViewModel", "Failure: ${e.message}")
-                _errorMessage.value = "Error: ${e.message}"
+                errorMessage.value = "Error: ${e.message}"
             }
         }
     }
 
-    fun deleteBuku(userId: String, id: String) {
-        viewModelScope.launch {
+
+    fun deleteBuku(userEmail: String, id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result = BukuApi.service.deleteBuku(userId, id)
+                val result = BukuApi.service.deleteBuku(userEmail, id)
                 if (result.status == "success") {
-                    retrieveData(userId)
+                    retrieveData(userEmail)
                 } else {
                     throw Exception(result.message)
                 }
             } catch (e: Exception) {
-                Log.d("MainViewModel", "Failure: ${e.message}")
-                _errorMessage.value = "Error: ${e.message}"
+                Log.e("MainViewModel", "Delete failed: ${e.message}")
+                errorMessage.value = "Gagal hapus: ${e.message}"
             }
         }
     }
 
     fun clearMessage() {
-        _errorMessage.value = null
+        errorMessage.value = null
     }
 
     private fun Bitmap.toMultipartBody(): MultipartBody.Part {
@@ -89,6 +89,6 @@ class MainViewModel : ViewModel() {
         compress(Bitmap.CompressFormat.JPEG, 80, stream)
         val byteArray = stream.toByteArray()
         val requestBody = byteArray.toRequestBody("image/jpg".toMediaTypeOrNull(), 0, byteArray.size)
-        return MultipartBody.Part.createFormData("image", "buku.jpg", requestBody)
+        return MultipartBody.Part.createFormData("gambar", "buku.jpg", requestBody)
     }
 }
